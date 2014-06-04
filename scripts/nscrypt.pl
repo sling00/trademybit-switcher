@@ -2,7 +2,7 @@
 use warnings;
 use strict;
 require '/opt/ifmi/pm-common.pl';
-
+ my $swopt = "1";
  my $conf = &getConfig;
  my %conf = %{$conf};
 my $conffile = "/opt/ifmi/poolmanager.conf";
@@ -11,7 +11,6 @@ my $conffile = "/opt/ifmi/poolmanager.conf";
  my $output = "";
    print "\nCurrent Profile: " . $conf{miners}{$currentm}{mconfig} . "\n";
    print "Switching to profile: " . $conf{miners}{$swopt}{mconfig} . "\n";
- my $swopt = "1";
 if ($currentm == $swopt) {
 	&startMining;
 	} else {
