@@ -5,6 +5,16 @@ require '/opt/ifmi/pm-common.pl';
 
  my $conf = &getConfig;
  my %conf = %{$conf};
+my $conffile = "/opt/ifmi/poolmanager.conf";
+ my $currentm = $conf{settings}{current_mconf};
+ my $minerpath = $conf{miners}{$currentm}{mpath};
 
+   print "\nCurrent Profile: " . $conf{miners}{$currentm}{mconfig} . "\n\n"; 
  my $swopt = "1";
- &switchProfile($swopt);
+if ($currentm == $swopt) {
+	&startMining;
+	} else {
+	   my $output = &switchProfile($swopt);
+	   print "$output";
+# &switchProfile($swopt);
+}
