@@ -22,6 +22,12 @@ class Algo:
         self.name       = name
         self.cnt        = 0
 
+class UserModifier:
+    def __init__(self, name):
+        self.usermodifier    = '' # the command that is run when we want to mine this coin.
+        self.userModValue    = append(self.name).userModValue
+        self.cnt             = 0
+
 class TradeMyBitSwitcher(object):
     def __init__(self):
         # Define supported algo

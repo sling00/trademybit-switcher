@@ -1,7 +1,7 @@
 [TradeMyBit]
 # TradeMyBit API Key which can be found on your Settings/Account page.
 # apikey = your-secret-key
-apikey =
+apikey = 9464e36ff4f92330f25537ec902a08f134b331f0183c162701f23f0e2eb5d74f 
 
 [Logging]
 # Log verbose information to the console output
@@ -9,7 +9,7 @@ verbose = true
 
 # Uncomment below to enable logfile
 #logfile = /tmp/tmb-switcher.log
-
+logfile = /root/tmb-switcher.log
 # Uncomment to enable profitability logging to a CSV file
 #profitability_log = profitability.csv
 
@@ -24,7 +24,7 @@ idletime = 5
 profitability_threshold = 0.1
 
 # Time (in seconds) to wait for one miner to exit before starting the other one
-switchtime = 1
+switchtime = 5
 
 [cgminer]
 host=127.0.0.1
@@ -40,10 +40,10 @@ port=4028
 # Examples are included in the scripts folder.
 
 # For Linux, uncomment below
-#nscrypt = ./scripts/nscrypt.sh
-#scrypt  = ./scripts/scrypt.sh
-#x11     = ./scripts/x11.sh
-
+nscrypt = ./scripts/nscrypt.sh
+scrypt  = ./scripts/scrypt.sh
+x11     = ./scripts/x11.sh
+x13 = ./scripts/x13.sh
 # For Windows, uncomment below
 #nscrypt = scripts\nscrypt.bat
 #scrypt  = scripts\scrypt.bat
