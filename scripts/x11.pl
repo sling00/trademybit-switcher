@@ -22,18 +22,19 @@ if ($currentm == $swopt) {
 	my $mcheck = `ps -eo command | grep -Ec ^$minerpath`;
         if ($mcheck > 0) {
         	print "Miner already running on correct profile.";
-		} elsif ($mcheck == 0 ) {
-				print "Best profile is current profile, but miner is not running. Attempting to start.";
-				&startMining;
-	 			my $mcheck = `ps -eo command | grep -Ec ^$minerpath`;
-        		if ($mcheck > 0) {
+	} elsif ($mcheck == 0 ) {
+		print "Best profile is current profile, but miner is not running. Attempting to start.";
+		&startMining;
+	 	my $mcheck = `ps -eo command | grep -Ec ^$minerpath`;
+        	if ($mcheck > 0) {
         		print "Miner started successfully";
-        		} elsif ($mcheck == 0) {
-        			print "WARNING: Miner did not start! Check your conf file:";
-        			my $mconf = $conf{miners}{$swopt}{savepath};
-        			print "$mconf";
-        			print "WARNING: Switching back to previous profile!";
-        			my $output = &switchProfile($oldprofile);
-        			print "$output";
-				}
+        	} elsif ($mcheck == 0) {
+        		print "WARNING: Miner did not start! Check your conf file:";
+        		my $mconf = $conf{miners}{$swopt}{savepath};
+        		print "$mconf";
+        		print "WARNING: Switching back to previous profile!";
+        		my $output = &switchProfile($oldprofile);
+        		print "$output";
+		}
+	}
 }
