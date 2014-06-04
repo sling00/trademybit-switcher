@@ -32,4 +32,5 @@ if ($currentm == $swopt) {
 	   print "Switching to profile: " . $conf{miners}{$swopt}{mconfig} . "\n";
 	   my $output = &switchProfile($swopt);
 	   print "$output";
+	}
 }
