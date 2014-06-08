@@ -8,7 +8,7 @@ require '/opt/ifmi/pm-common.pl';
  my $conffile = "/opt/ifmi/poolmanager.conf";
  my $currentm = $conf{settings}{current_mconf};
  my $minerpath = $conf{miners}{$currentm}{mpath};
- my $output = "";
+ my $output = " \n";
  my $oldprofile = "$currentm";
 #If our new profile is different.
  if ($currentm != $swopt ) {
@@ -21,18 +21,18 @@ require '/opt/ifmi/pm-common.pl';
 if ($currentm == $swopt) {
 	my $mcheck = `ps -eo command | grep -Ec ^$minerpath`;
         if ($mcheck > 0) {
-        	print "Miner already running on correct profile.";
+        	print "Miner already running on correct profile.\n";
 	} elsif ($mcheck == 0 ) {
-		print "Best profile is current profile, but miner is not running. Attempting to start.";
+		print "Best profile is current profile, but miner is not running. Attempting to start.\n";
 		&startMining;
 	 	my $mcheck = `ps -eo command | grep -Ec ^$minerpath`;
         	if ($mcheck > 0) {
-        		print "Miner started successfully";
+        		print "Miner started successfully\n";
         	} elsif ($mcheck == 0) {
-        		print "WARNING: Miner did not start! Check your conf file:";
+        		print "WARNING: Miner did not start! Check your conf file:\n";
         		my $mconf = $conf{miners}{$swopt}{savepath};
         		print "$mconf";
-        		print "WARNING: Switching back to previous profile!";
+        		print "WARNING: Switching back to previous profile!\n";
         		my $output = &switchProfile($oldprofile);
         		print "$output";
 		}

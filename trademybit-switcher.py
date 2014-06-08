@@ -106,10 +106,56 @@ class TradeMyBitSwitcher(object):
             # return result
             best_algo = max(scores.iterkeys(), key=(lambda key: scores[key]))
 
+            #This section handle the modification and report of best_algo
+            if best_algo == "x13":
+                mod_score_best_algo = scores[best_algo] * self.x13_value_mod
+                self.best_algo_current_mod = self.x13_value_mod
+            elif best_algo == "x11":
+                mod_score_best_algo = scores[best_algo] * self.x11_value_mod
+                self.best_algo_current_mod = self.x11_value_mod
+            elif best_algo == "scrypt":
+                mod_score_best_algo = scores[best_algo] * self.scrypt_value_mod
+                self.best_algo_current_mod = self.scrypt_value_mod
+            elif best_algo == "nscrypt":
+                mod_score_best_algo = scores[best_algo] * self.nscrypt_value_mod
+                self.best_algo_current_mod = self.nscrypt_value_mod
+            else:
+                print "best_algo name failure report #1"
+            #except: #This cause script to not start so disabling for now #VTML
+                #print "best_algo name failure reported #2"
+
+            #This section handle the modification and report of current_algo
+            if self.current_algo == None:
+                print ""
+                print "*** Current Algo modification skipped due to script not detecting an active profile. ***"
+            elif self.current_algo == "x13":
+                mod_score_current_algo = scores[self.current_algo] * self.x13_value_mod
+                self.current_algo_current_mod = self.x13_value_mod
+            elif self.current_algo == "x11":
+                mod_score_current_algo = scores[self.current_algo] * self.x11_value_mod
+                self.current_algo_current_mod = self.x11_value_mod
+            elif self.current_algo == "scrypt":
+                mod_score_current_algo = scores[self.current_algo] * self.scrypt_value_mod
+                self.current_algo_current_mod = self.scrypt_value_mod
+            elif self.current_algo == "nscrypt":
+                mod_score_current_algo = scores[self.current_algo] * self.nscrypt_value_mod
+                self.current_algo_current_mod = self.scrypt_value_mod
+            else:
+                print "current_algo name failure report #1"
+
+            #This handle reporting values in a human-readable format #VTML must pimp this up when switcher mod is tested and stable
+            print ""
+            print "-" *42
+            if not self.current_algo == None:
+               print "Current algo is", self.current_algo, "with a value of", scores[self.current_algo], "with a modifier of", self.current_algo_current_mod, "for a final value of", mod_score_current_algo
+            print "Best detected algo is", best_algo, "with a value of", scores[best_algo], "with a modifier of", self.best_algo_current_mod, "for a final value of", mod_score_best_algo
+            print "-" *42
+            print ""
+            
             # Switch if not yet mining or we're crossing the threshold
             if (self.current_algo == None) or \
                 (self.current_algo == best_algo) or \
-                (((scores[best_algo] - scores[self.current_algo]) / scores[self.current_algo]) > self.profitability_threshold):
+                (((mod_score_best_algo - mod_score_current_algo) / mod_score_current_algo) > self.profitability_threshold):
                 best = best_algo
             else:
                 best = None
@@ -123,6 +169,8 @@ class TradeMyBitSwitcher(object):
         except (socket.error, KeyError):
             self.logger.warning('Cannot connect to TMB API...')
             return None
+
+
 
     # # Return scrypt/nscrypt based on the version of the miner running
     # # Temporarly disabled to support sgminer since we can't reliably determine
@@ -257,6 +305,28 @@ class TradeMyBitSwitcher(object):
         except:
             self.logger.warning("Could not read cgminer port from config file. Defaulting to 4028")
             self.cgminer_host = 4028
+        #PiMP Additional Settings and Variables; VTML
+        try:
+            self.x13_value_mod = config.getfloat('PiMP', 'x13_value_mod')
+        except:
+            self.logger.warning("Could not read x13_value_mod from config file, defaulting to *1")
+            self.x13_value_mod = 1
+        try:
+            self.x11_value_mod = config.getfloat('PiMP', 'x11_value_mod')
+        except:
+            self.logger.warning("Could not read x11_value_mod from config file, defaulting to *1")
+            self.x11_value_mod = 1
+        try:
+            self.scrypt_value_mod = config.getfloat('PiMP', 'scrypt_value_mod')
+        except:
+            self.logger.warning("Could not read scrypt_value_mod from config file, defaulting to *1")
+            self.scrypt_value_mod = 1
+        try:
+            self.nscrypt_value_mod = config.getfloat('PiMP', 'nscrypt_value_mod')
+        except:
+            self.logger.warning("Could not read nscrypt_value_mod from config file, defaulting to *1")
+            self.nscrypt_value_mod = 1
+        #PiMP Settings End
 
         for key in dict(config.items('Scripts')):
             try:
